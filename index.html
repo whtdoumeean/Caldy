@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg-base: #0a0a0f;
+    --bg-base: #000000;
     --bg-card: #111118;
     --bg-card2: #16161f;
     --bg-glass: rgba(255,255,255,0.04);
@@ -639,24 +639,393 @@
 
   /* ─── ANIMATIONS ────────────────────────────── */
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
+    from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
   }
-  .fade-up { animation: fadeUp 0.4s ease forwards; }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.88); }
+    to { opacity: 1; transform: scale(1); }
+  }
   @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+  @keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes rippleOut {
+    0% { transform: scale(0); opacity: 0.6; }
+    100% { transform: scale(4); opacity: 0; }
+  }
+  @keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.08); }
+    70% { transform: scale(0.95); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  @keyframes gradShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  @keyframes glowPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(91,143,255,0); }
+    50% { box-shadow: 0 0 20px 4px rgba(91,143,255,0.25); }
+  }
+  @keyframes countUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes navSlide {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+  @keyframes pageEnter {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes logoReveal {
+    0% { opacity: 0; letter-spacing: 10px; filter: blur(8px); }
+    100% { opacity: 1; letter-spacing: -3px; filter: blur(0); }
+  }
+  @keyframes taglineReveal {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 0.7; transform: translateY(0); }
+  }
+  @keyframes cardReveal {
+    0% { opacity: 0; transform: translateY(24px) scale(0.96); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes progressFill {
+    from { width: 0% !important; }
+  }
+  @keyframes dotPop {
+    0% { transform: scale(0); }
+    60% { transform: scale(1.4); }
+    100% { transform: scale(1); }
+  }
+  @keyframes confettiFall {
+    0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+  @keyframes toastSlide {
+    0% { opacity: 0; transform: translateX(-50%) translateY(14px) scale(0.94); }
+    100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+  }
+  @keyframes auroraMove {
+    0% { transform: translate(0%, 0%) rotate(0deg) scale(1); }
+    33% { transform: translate(3%, 2%) rotate(120deg) scale(1.05); }
+    66% { transform: translate(-2%, 3%) rotate(240deg) scale(0.97); }
+    100% { transform: translate(0%, 0%) rotate(360deg) scale(1); }
+  }
+
+  .fade-up { animation: fadeUp 0.45s cubic-bezier(0.22,1,0.36,1) forwards; }
+  .scale-in { animation: scaleIn 0.35s cubic-bezier(0.34,1.2,0.64,1) forwards; }
   .pulse { animation: pulse 1.5s ease infinite; }
 
-  /* ─── STREAK BADGE ──────────────────────────── */
+  /* page transition */
+  .page.active { animation: pageEnter 0.38s cubic-bezier(0.22,1,0.36,1) forwards; }
+
+  /* ─── AURORA BACKGROUND ─────────────────────── */
+  .aurora-wrap {
+    position: fixed; inset: 0; z-index: 0;
+    pointer-events: none; overflow: hidden;
+  }
+  .aurora-blob {
+    position: absolute; border-radius: 50%;
+    filter: blur(80px); opacity: 0.09;
+    animation: auroraMove 18s ease-in-out infinite;
+    will-change: transform;
+  }
+  .aurora-blob:nth-child(1) {
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, #5b8fff, transparent);
+    top: -200px; left: -100px;
+    animation-duration: 20s;
+  }
+  .aurora-blob:nth-child(2) {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, #a855f7, transparent);
+    bottom: -100px; right: -100px;
+    animation-duration: 16s; animation-delay: -6s;
+  }
+  .aurora-blob:nth-child(3) {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, #06d6a0, transparent);
+    top: 40%; left: 40%;
+    animation-duration: 24s; animation-delay: -10s;
+  }
+
+  /* ─── AUTH ANIMATIONS ───────────────────────── */
+  .auth-logo { animation: logoReveal 0.9s cubic-bezier(0.22,1,0.36,1) forwards; }
+  .auth-tagline { animation: taglineReveal 0.8s ease 0.3s both; }
+  .auth-card { animation: cardReveal 0.7s cubic-bezier(0.34,1.1,0.64,1) 0.2s both; }
+
+  /* animated gradient logo */
+  .auth-logo, .topbar-logo {
+    background: linear-gradient(270deg, #5b8fff, #a855f7, #06d6a0, #5b8fff);
+    background-size: 300% 300%;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradShift 5s ease infinite;
+  }
+  .topbar-logo { animation: gradShift 5s ease infinite; font-size: 26px; font-weight: 800; letter-spacing: -1.5px; }
+
+  /* ─── RIPPLE ────────────────────────────────── */
+  .ripple-host { position: relative; overflow: hidden; }
+  .ripple {
+    position: absolute; border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    pointer-events: none;
+    animation: rippleOut 0.55s ease-out forwards;
+    transform-origin: center;
+  }
+
+  /* ─── NAV ACTIVE INDICATOR ──────────────────── */
+  .nav-item { position: relative; }
+  .nav-item.active::after {
+    content: '';
+    position: absolute; bottom: -10px; left: 50%;
+    transform: translateX(-50%);
+    width: 20px; height: 3px;
+    background: var(--accent);
+    border-radius: 2px;
+    animation: navSlide 0.3s cubic-bezier(0.34,1.4,0.64,1) forwards;
+  }
+
+  /* ─── SECTION CARD HOVER ────────────────────── */
+  .section-card {
+    transition: all 0.25s cubic-bezier(0.22,1,0.36,1);
+  }
+  .section-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    border-color: var(--border2);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px var(--border2);
+  }
+  .section-card:active { transform: scale(0.97) !important; transition-duration: 0.1s; }
+
+  /* ─── CHECK BUTTONS ─────────────────────────── */
+  .check-btn { transition: all 0.2s cubic-bezier(0.34,1.2,0.64,1); }
+  .check-btn:active { transform: scale(0.94); }
+  .check-btn.done-btn.active {
+    animation: glowPulse 2s ease infinite;
+    box-shadow: 0 0 20px rgba(48,209,88,0.2);
+  }
+
+  /* ─── CALENDAR DAY HOVER ────────────────────── */
+  .cal-day { transition: all 0.15s cubic-bezier(0.34,1.3,0.64,1); }
+  .cal-day.done, .cal-day.miss { animation: dotPop 0.3s cubic-bezier(0.34,1.4,0.64,1) both; }
+
+  /* ─── PROGRESS BARS ─────────────────────────── */
+  .progress-fill { animation: progressFill 0.7s cubic-bezier(0.22,1,0.36,1) both; }
+
+  /* ─── HEATMAP CELL ──────────────────────────── */
+  .heatmap-cell.done { animation: dotPop 0.25s ease both; }
+  .heatmap-cell:hover { transform: scale(1.5) !important; transition: transform 0.15s; }
+
+  /* ─── MODAL ─────────────────────────────────── */
+  .modal-overlay.open .modal { animation: cardReveal 0.38s cubic-bezier(0.34,1.1,0.64,1) forwards; }
+
+  /* ─── TOAST ─────────────────────────────────── */
+  .toast.show { animation: toastSlide 0.35s cubic-bezier(0.34,1.2,0.64,1) forwards; }
+
+  /* ─── STAT CARD ─────────────────────────────── */
+  .stat-card { transition: all 0.2s ease; }
+  .stat-card:hover { transform: translateY(-2px); border-color: var(--border2); }
+
+  /* ─── SHIMMER LOADING ───────────────────────── */
+  .shimmer {
+    background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-card2) 50%, var(--bg-card) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s ease infinite;
+  }
+
+  /* ─── FLOAT ICON ────────────────────────────── */
+  .float-icon { animation: float 3s ease-in-out infinite; display: inline-block; }
+
+  /* ─── SECTIONS TOGGLE ───────────────────────── */
+  .sections-toggle {
+    width: 100%;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer; margin-bottom: 0;
+    transition: all 0.25s ease;
+    font-family: 'Outfit', sans-serif;
+    color: var(--text);
+    position: relative; overflow: hidden;
+  }
+  .sections-toggle::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(91,143,255,0.04), rgba(168,85,247,0.04));
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .sections-toggle:hover::before { opacity: 1; }
+  .sections-toggle:hover { border-color: var(--border2); }
+  .sections-toggle.open { border-radius: var(--radius) var(--radius) 0 0; border-bottom-color: transparent; margin-bottom: 0; }
+
+  .sections-toggle-left { display: flex; align-items: center; gap: 14px; }
+  .sections-toggle-icon {
+    width: 38px; height: 38px; border-radius: 10px;
+    background: linear-gradient(135deg, rgba(91,143,255,0.15), rgba(168,85,247,0.15));
+    border: 1px solid rgba(91,143,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  .sections-toggle-icon svg { width: 18px; height: 18px; }
+  .sections-toggle-label { font-size: 15px; font-weight: 600; text-align: left; }
+  .sections-toggle-sub { font-size: 12px; color: var(--text-sub); text-align: left; margin-top: 1px; }
+  .sections-toggle-arrow {
+    width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-sub);
+    transition: transform 0.35s cubic-bezier(0.34,1.2,0.64,1);
+    flex-shrink: 0;
+  }
+  .sections-toggle-arrow svg { width: 18px; height: 18px; }
+  .sections-toggle.open .sections-toggle-arrow { transform: rotate(180deg); }
+
+  /* grid wrapper */
+  .sections-grid-wrap {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.55s cubic-bezier(0.22,1,0.36,1);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 var(--radius) var(--radius);
+  }
+  .sections-grid-wrap.open {
+    max-height: 1000px;
+  }
+  .sections-grid-wrap .sections-grid {
+    padding: 16px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.35s ease 0.1s, transform 0.4s cubic-bezier(0.22,1,0.36,1) 0.1s;
+  }
+  .sections-grid-wrap.open .sections-grid {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* stagger cards inside */
+  .sections-grid-wrap.open .section-card:nth-child(1) { animation: fadeUp 0.4s cubic-bezier(0.22,1,0.36,1) 0.05s both; }
+  .sections-grid-wrap.open .section-card:nth-child(2) { animation: fadeUp 0.4s cubic-bezier(0.22,1,0.36,1) 0.10s both; }
+  .sections-grid-wrap.open .section-card:nth-child(3) { animation: fadeUp 0.4s cubic-bezier(0.22,1,0.36,1) 0.15s both; }
+  .sections-grid-wrap.open .section-card:nth-child(4) { animation: fadeUp 0.4s cubic-bezier(0.22,1,0.36,1) 0.20s both; }
+  .sections-grid-wrap.open .section-card:nth-child(5) { animation: fadeUp 0.4s cubic-bezier(0.22,1,0.36,1) 0.25s both; }
+  .sections-grid-wrap.open .section-card:nth-child(6) { animation: fadeUp 0.4s cubic-bezier(0.22,1,0.36,1) 0.30s both; }
+  .sections-grid-wrap.open .section-card:nth-child(7) { animation: fadeUp 0.4s cubic-bezier(0.22,1,0.36,1) 0.35s both; }
+  .sections-grid-wrap.open .section-card:nth-child(8) { animation: fadeUp 0.4s cubic-bezier(0.22,1,0.36,1) 0.40s both; }
+
+  /* ─── CURSOR GLOW ───────────────────────────── */
+  #cursor-glow {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: screen;
+    transition: opacity 0.4s ease;
+  }
+  #cursor-dot {
+    position: fixed;
+    width: 6px; height: 6px;
+    background: white;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    transition: transform 0.08s ease, opacity 0.3s ease, width 0.2s ease, height 0.2s ease;
+    mix-blend-mode: difference;
+  }
+  #cursor-trail {
+    position: fixed;
+    width: 28px; height: 28px;
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.14s ease, width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
+    mix-blend-mode: difference;
+  }
+  /* hide on touch devices */
+  @media (hover: none) {
+    #cursor-glow, #cursor-dot, #cursor-trail { display: none; }
+  }
+
   .streak-badge {
     display: inline-flex; align-items: center; gap: 4px;
     background: rgba(255,214,10,0.1);
     border: 1px solid rgba(255,214,10,0.3);
     border-radius: 20px; padding: 4px 10px;
     font-size: 13px; font-weight: 600; color: var(--yellow);
+    transition: all 0.2s;
   }
+  .streak-badge:hover { background: rgba(255,214,10,0.18); transform: scale(1.04); }
+
+  /* ─── CONFETTI PIECE ────────────────────────── */
+  .confetti-piece {
+    position: fixed; width: 8px; height: 8px;
+    border-radius: 2px; pointer-events: none; z-index: 9999;
+    animation: confettiFall linear forwards;
+  }
+
+  /* ─── TOPBAR LOGO GLOW ──────────────────────── */
+  .topbar { transition: box-shadow 0.3s; }
+
+  /* ─── BACK BUTTON ───────────────────────────── */
+  .back-btn { transition: all 0.2s; }
+  .back-btn:hover { transform: translateX(-3px); }
+
+  /* ─── CARD TODAY DOT ────────────────────────── */
+  .card-today.done { animation: dotPop 0.4s cubic-bezier(0.34,1.5,0.64,1) both, pulse 2.5s ease 0.4s infinite; }
+
+  /* ─── AUTH BTN ──────────────────────────────── */
+  .auth-btn {
+    background-size: 200% 200%;
+    animation: gradShift 4s ease infinite;
+    transition: transform 0.15s, opacity 0.2s;
+  }
+  .auth-btn:active { transform: scale(0.97); }
+
+  /* stagger for section cards */
+  .sections-grid .section-card:nth-child(1) { animation-delay: 0.05s; }
+  .sections-grid .section-card:nth-child(2) { animation-delay: 0.1s; }
+  .sections-grid .section-card:nth-child(3) { animation-delay: 0.15s; }
+  .sections-grid .section-card:nth-child(4) { animation-delay: 0.2s; }
+  .sections-grid .section-card:nth-child(5) { animation-delay: 0.25s; }
+  .sections-grid .section-card:nth-child(6) { animation-delay: 0.3s; }
+  .sections-grid .section-card:nth-child(7) { animation-delay: 0.35s; }
+  .sections-grid .section-card:nth-child(8) { animation-delay: 0.4s; }
 </style>
 </head>
 <body>
+
+<!-- ── CURSOR GLOW ────────────────────────────────────────── -->
+<canvas id="cursor-glow" style="position:fixed;pointer-events:none;z-index:9999;mix-blend-mode:screen;"></canvas>
 
 <!-- ── AUTH SCREEN ─────────────────────────────────── -->
 <div id="auth-screen">
@@ -716,9 +1085,26 @@
         <div class="today-progress" id="today-progress"></div>
       </div>
 
-      <!-- Sections grid -->
-      <div style="font-size:13px;color:var(--text-sub);font-weight:600;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:12px;">Your Sections</div>
-      <div class="sections-grid" id="sections-grid"></div>
+      <!-- Sections toggle button -->
+      <button class="sections-toggle" id="sections-toggle" onclick="toggleSections()">
+        <div class="sections-toggle-left">
+          <div class="sections-toggle-icon" id="sections-toggle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          </div>
+          <div>
+            <div class="sections-toggle-label">Your Sections</div>
+            <div class="sections-toggle-sub" id="sections-toggle-sub">Tap to expand</div>
+          </div>
+        </div>
+        <div class="sections-toggle-arrow" id="sections-toggle-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </button>
+
+      <!-- Sections grid (hidden by default) -->
+      <div class="sections-grid-wrap" id="sections-grid-wrap">
+        <div class="sections-grid" id="sections-grid"></div>
+      </div>
     </div>
 
     <!-- SECTION DETAIL PAGE -->
@@ -962,15 +1348,28 @@ function logout() {
 //  NAV
 // ─────────────────────────────────────────────────────────
 function navTo(page) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById(`page-${page}`)?.classList.add('active');
-  document.getElementById(`nav-${page}`)?.classList.add('active');
-  if (page === 'home') renderHome();
-  if (page === 'combined') renderCombined();
-  if (page === 'stats') renderStats();
-  if (page === 'profile') renderProfile();
-  window.scrollTo(0, 0);
+  const current = document.querySelector('.page.active');
+  if (current) {
+    current.style.opacity = '0';
+    current.style.transform = 'translateY(8px)';
+    current.style.transition = 'opacity 0.18s ease, transform 0.18s ease';
+  }
+  setTimeout(() => {
+    document.querySelectorAll('.page').forEach(p => {
+      p.classList.remove('active');
+      p.style.opacity = '';
+      p.style.transform = '';
+      p.style.transition = '';
+    });
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById(`page-${page}`)?.classList.add('active');
+    document.getElementById(`nav-${page}`)?.classList.add('active');
+    if (page === 'home') renderHome();
+    if (page === 'combined') renderCombined();
+    if (page === 'stats') renderStats();
+    if (page === 'profile') renderProfile();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, current ? 160 : 0);
 }
 
 // ─────────────────────────────────────────────────────────
@@ -1114,11 +1513,18 @@ function logDay(sectionId, val) {
   const data = getUserData();
   const today = todayStr();
   const existing = getLog(data, sectionId, today);
-  // toggle off if same
-  setLog(data, sectionId, today, existing === val ? null : val);
+  const newVal = existing === val ? null : val;
+  setLog(data, sectionId, today, newVal);
   saveUserData(data);
   openSection(sectionId);
-  toast(val === 'done' ? '✅ Marked as done!' : '❌ Marked as missed');
+  if (newVal === 'done') {
+    toast('✅ Marked as done!');
+    launchConfetti();
+  } else if (newVal === 'miss') {
+    toast('❌ Marked as missed');
+  } else {
+    toast('↩️ Unmarked');
+  }
 }
 
 function saveNote(sectionId, date) {
@@ -1611,6 +2017,214 @@ document.addEventListener('keydown', e => {
     document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
   }
 });
+
+// ─────────────────────────────────────────────────────────
+//  SECTIONS TOGGLE
+// ─────────────────────────────────────────────────────────
+let sectionsOpen = false;
+
+function toggleSections() {
+  sectionsOpen = !sectionsOpen;
+  const btn = document.getElementById('sections-toggle');
+  const wrap = document.getElementById('sections-grid-wrap');
+  const sub = document.getElementById('sections-toggle-sub');
+  btn.classList.toggle('open', sectionsOpen);
+  wrap.classList.toggle('open', sectionsOpen);
+  sub.textContent = sectionsOpen ? 'Tap to collapse' : 'Tap to expand';
+}
+
+// ─────────────────────────────────────────────────────────
+//  CURSOR COMET TRAIL (desktop only)
+// ─────────────────────────────────────────────────────────
+(function initCursorTrail() {
+  if (window.matchMedia('(hover: none)').matches) return;
+
+  const canvas = document.getElementById('cursor-glow');
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    canvas.style.left = '0';
+    canvas.style.top = '0';
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const points = [];
+  const MAX = 28;
+  let lastMoveTime = 0;
+  let globalAlpha = 1;
+
+  document.addEventListener('mousemove', e => {
+    points.push({ x: e.clientX, y: e.clientY });
+    if (points.length > MAX) points.shift();
+    lastMoveTime = performance.now();
+    globalAlpha = 1;
+  }, { passive: true });
+
+  document.addEventListener('mouseleave', () => { points.length = 0; });
+
+  function draw(now) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Fade out after 80ms of no movement
+    const idle = now - lastMoveTime;
+    if (idle > 80) {
+      globalAlpha = Math.max(0, globalAlpha - 0.045);
+      // Shrink trail from tail end as it fades
+      if (points.length > 0) points.shift();
+    }
+
+    if (points.length >= 2 && globalAlpha > 0) {
+      for (let i = 1; i < points.length; i++) {
+        const t = i / points.length;
+        const alpha = Math.pow(t, 1.8) * 0.85 * globalAlpha;
+        const width = t * 2.5;
+
+        ctx.beginPath();
+        ctx.moveTo(points[i - 1].x, points[i - 1].y);
+        ctx.lineTo(points[i].x, points[i].y);
+        ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
+        ctx.lineWidth = width;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.stroke();
+      }
+
+      // bright dot at head
+      const head = points[points.length - 1];
+      if (head) {
+        const headGrad = ctx.createRadialGradient(head.x, head.y, 0, head.x, head.y, 6);
+        headGrad.addColorStop(0, `rgba(255,255,255,${0.9 * globalAlpha})`);
+        headGrad.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.fillStyle = headGrad;
+        ctx.beginPath();
+        ctx.arc(head.x, head.y, 6, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+})();
+
+// ── Ripple effect ────────────────────────────────────────
+function addRipple(e) {
+  const btn = e.currentTarget;
+  if (!btn) return;
+  const circle = document.createElement('span');
+  const rect = btn.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height);
+  circle.className = 'ripple';
+  circle.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX - rect.left - size/2}px;top:${e.clientY - rect.top - size/2}px`;
+  btn.appendChild(circle);
+  setTimeout(() => circle.remove(), 600);
+}
+document.addEventListener('click', e => {
+  const target = e.target.closest('.auth-btn, .check-btn, .modal-confirm, .nav-item, .cal-btn');
+  if (target) { target.classList.add('ripple-host'); addRipple({ currentTarget: target, clientX: e.clientX, clientY: e.clientY }); }
+});
+
+// ── Confetti ─────────────────────────────────────────────
+function launchConfetti() {
+  const colors = ['#5b8fff','#a855f7','#06d6a0','#ffd60a','#ff6b35','#ff375f','#30d158'];
+  for (let i = 0; i < 60; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.cssText = `
+        left: ${Math.random() * 100}vw;
+        top: -10px;
+        background: ${colors[Math.floor(Math.random() * colors.length)]};
+        width: ${4 + Math.random() * 8}px;
+        height: ${4 + Math.random() * 8}px;
+        border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+        animation-duration: ${0.9 + Math.random() * 1.4}s;
+        animation-delay: ${Math.random() * 0.3}s;
+        transform: rotate(${Math.random() * 360}deg);
+        opacity: 1;
+      `;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 2500);
+    }, i * 18);
+  }
+}
+
+// ── Animated number counter ──────────────────────────────
+function animateCount(el, target, duration = 800) {
+  if (!el) return;
+  const start = 0;
+  const startTime = performance.now();
+  function update(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(start + (target - start) * ease);
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+// ── Scroll reveal ────────────────────────────────────────
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+function observeReveal(selector) {
+  document.querySelectorAll(selector).forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(18px)';
+    el.style.transition = `opacity 0.45s ease ${i * 0.07}s, transform 0.45s cubic-bezier(0.22,1,0.36,1) ${i * 0.07}s`;
+    revealObserver.observe(el);
+  });
+}
+
+// ── Patch renderStats to animate numbers ─────────────────
+const _origRenderStats = renderStats;
+window.renderStats = function() {
+  _origRenderStats();
+  setTimeout(() => {
+    document.querySelectorAll('.stat-card-val').forEach(el => {
+      const num = parseInt(el.textContent);
+      if (!isNaN(num)) animateCount(el, num, 700);
+    });
+    observeReveal('.stat-card');
+    observeReveal('.settings-group');
+  }, 60);
+};
+
+// ── Patch renderHome to trigger reveal ───────────────────
+const _origRenderHome = renderHome;
+window.renderHome = function() {
+  _origRenderHome();
+  setTimeout(() => {
+    observeReveal('.section-card');
+    observeReveal('.today-strip');
+  }, 50);
+};
+
+
+
+// ── Topbar scroll shadow ─────────────────────────────────
+document.querySelector('.main')?.addEventListener('scroll', function() {
+  const topbar = document.querySelector('.topbar');
+  if (!topbar) return;
+  if (this.scrollTop > 10) {
+    topbar.style.boxShadow = '0 4px 30px rgba(0,0,0,0.5)';
+  } else {
+    topbar.style.boxShadow = '';
+  }
+}, { passive: true });
 
 // ─────────────────────────────────────────────────────────
 //  INIT
